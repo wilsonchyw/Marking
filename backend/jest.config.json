@@ -1,0 +1,13 @@
+{
+    "coverageDirectory": "coverage",
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "testMatch": ["<rootDir>/__tests__/**/*.test.ts"],
+    "testPathIgnorePatterns": ["worker", "src", "dict"],
+    "verbose": true,
+    "transform": {
+        "^.+\\.(ts|tsx)$": "ts-jest",
+        "^.+\\.(js)$": "babel-jest"
+    },
+    "transformIgnorePatterns": []
+}

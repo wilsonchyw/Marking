@@ -1,0 +1,45 @@
+import User from "../src/model/User";
+import Database from "../src/services/database";
+const sleep = () => new Promise((resolve) => setTimeout(resolve, 2000));
+describe("User", () => {
+    let user = new User();
+
+    beforeEach(() => {
+        sleep()
+    });
+
+    afterEach(async () => {
+        // clean up database
+        await user.db.knex.schema.dropTableIfExists("users");
+    });
+
+    describe("init", () => {
+        it("should create the users table if it does not exist", async () => {
+            // Ensure the table doesn't exist before calling init()
+            await user.db.knex.schema.dropTableIfExists("users");
+
+            await user.init();
+
+            const tableExists = await user.db.knex.schema.hasTable("users");
+            expect(tableExists).toBe(true);
+        });
+
+        it("should not recreate the users table if it already exists", async () => {
+            // Ensure the table exists before calling init()
+            await user.db.knex.schema.createTable("users", (table) => {
+                table.increments("id").primary();
+                table.integer("role");
+                table.string("firstName");
+                table.string("lastName");
+                table.string("username");
+                table.string("email");
+                table.string("password");
+            });
+
+            await user.init();
+
+            const tableExists = await user.db.knex.schema.hasTable("users");
+            expect(tableExists).toBe(true);
+        });
+    });
+});

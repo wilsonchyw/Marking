@@ -1,0 +1,29 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist",
+        "baseUrl": ".",
+        "esModuleInterop": true,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "removeComments": true,
+        "resolveJsonModule": true,
+        "experimentalDecorators": true,
+        "target": "ES2015",
+        "emitDecoratorMetadata": true,
+        "lib": ["es2019", "dom"],
+        "types": ["reflect-metadata", "node", "jest"],
+        "allowJs": true
+    },
+    "include": [
+        "next-env.d.ts",
+        "**/*.ts",
+        "**/*.tsx",
+        "src/pages/product-category/[catalog].tsx.bak",
+        "src/pages/product-category/[catalog]/[id].tsx.bak",
+        "src/pages/[page].tsx,bak",
+        "src/components/Grid/index.tsx.bak",
+        "__tests__/UserService.test.ts",
+        "__tests__/UserModel.test.ts.bak"
+    ],
+    "exclude": ["node_modules"]
+}
