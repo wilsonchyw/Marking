@@ -11,6 +11,18 @@ export default class QuestionService extends ModelService<Question> {
     constructor() {
         super("questions");
     }
+
+    async getAllQuestionAndAnswer() {
+        return await this.db.knex
+            .select("assignments.*", "questions.*", "answers.*")
+            .from("assignments")
+            .join("questions", "assignments.id", "questions.assignment_id")
+            .join("answers", function () {
+                this.on("questions.id", "=", "answers.question_id");
+            })
+            .orderBy("assignments.id")
+            .orderBy("questions.id");
+    }
 }
 
 export interface Question {

@@ -18,6 +18,7 @@ class Database {
                 user: "admin",
                 password: "admin",
             },
+            fetchAsString: []
         };
         this._knex = Knex(option);
     }

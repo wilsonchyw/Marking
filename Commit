@@ -1,0 +1,12 @@
+Initial build of frontend
+Fonrtend:
+Student can view assignment status
+Student can draft and submit answer
+Instructor can view assignment status
+Backend:
+Add JWT authentication
+Fix AssignmentsController
+Fix StudentAnswersService
+Fix AssignmentsService
+Fix Knex return string for count
+Add checking for studentAns update

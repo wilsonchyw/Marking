@@ -7,7 +7,7 @@ services:
             - POSTGRES_USER=admin
             - POSTGRES_PASSWORD=admin
         ports:
-            - '5432:5432'
+            - '5431:5432'
         volumes: 
             - ./database:/var/lib/postgresql/data
         container_name: Marking_database
@@ -22,3 +22,15 @@ services:
         entrypoint: ["npm", "run", "dev"]
         container_name: Marking_backend
         image: marking_backend:dev
+    frontend:
+        build:
+            context: "frontend"
+        ports:
+            - 3001:3000
+        volumes:
+            - "./frontend:/app"
+            - "/app/node_modules"
+        entrypoint: ["npm", "run", "dev"]
+        container_name: Marking_frontend
+        image: marking_frontend:dev
+

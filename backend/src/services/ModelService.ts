@@ -31,7 +31,7 @@ export default abstract class ModelService<T> implements Model<T> {
     }
 
     async create(data: Partial<T>): Promise<T> {
-        const result = await this.db.knex(this.tableName).insert(data).returning("*");
+        const result = await this.db.knex(this.tableName).insert(data).returning("id");
         return result[0] as T;
     }
 

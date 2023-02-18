@@ -1,7 +1,6 @@
 {
     "compilerOptions": {
         "outDir": "./dist",
-        "baseUrl": ".",
         "esModuleInterop": true,
         "module": "commonjs",
         "moduleResolution": "node",
@@ -11,8 +10,9 @@
         "target": "ES2015",
         "emitDecoratorMetadata": true,
         "lib": ["es2019", "dom"],
-        "types": ["reflect-metadata", "node", "jest"],
-        "allowJs": true
+        "types": ["reflect-metadata", "node", "jest", "./types"],
+        "allowJs": true,
+        "baseUrl": "."
     },
     "include": [
         "next-env.d.ts",

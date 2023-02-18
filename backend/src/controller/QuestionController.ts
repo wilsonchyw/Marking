@@ -1,4 +1,4 @@
-import Controller from "./Controller.abstract";
+
 import Inject from "../decorators/inject";
 import Injectable from "../decorators/injectable";
 import { DELETE, GET, POST, PUT } from "../decorators/restful";
