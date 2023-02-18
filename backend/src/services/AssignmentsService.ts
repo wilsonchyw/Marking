@@ -31,31 +31,19 @@ export default class AssignmentsService extends ModelService<Assignment> {
                 "assignments.id as assignment_id",
                 this.db.knex.raw("count(questions.id) as num_questions"),
                 this.db.knex.raw("count(case when student_answers.issubmit = true then 1 end) as num_submitted"),
-                this.db.knex.raw("count(case when student_answers.issubmit = false then 1 end) as num_draft")
+                this.db.knex.raw("count(case when student_answers.issubmit = false then 1 end) as num_draft"),
+                "assignment_score.score"
             )
             .from("assignments")
             .innerJoin("questions", "assignments.id", "questions.assignment_id")
             .leftJoin("student_answers", function () {
                 this.on("questions.id", "student_answers.question_id").andOnIn("student_answers.user_id", userId);
             })
-            .groupBy("assignments.id", "questions.id")
-            .orderBy("assignments.id")
-        /* return await this.db.knex
-            .select(
-                "assignments.id as assignment_id",
-                //this.db.knex.count('questions.id as num_questions'),
-                //this.db.knex.raw("count(questions.id) as num_questions"),
-                this.db.knex.raw("count(student_answers.id) as num_submitted")
-            )
-            .count("questions.id as num_questions")
-            .from("assignments")
-            .innerJoin("questions", "assignments.id", "questions.assignment_id")
-            .leftJoin("student_answers", function () {
-                this.on("questions.id", "student_answers.question_id")
-                    .andOnIn("student_answers.issubmit", [true, "true"])
-                    .andOnIn("student_answers.user_id", userId);
+            .leftJoin("assignment_score", function () {
+                this.on("assignment_score.assignment_id", "assignments.id ").andOn("student_answers.user_id", "assignment_score.user_id");
             })
-            .groupBy("assignments.id", "questions.id"); */
+            .groupBy("assignments.id", "questions.id", "assignment_score.score")
+            .orderBy("assignments.id")
     }
 
     async getCompletedByUserId(userId: string) {

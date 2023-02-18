@@ -24,7 +24,7 @@ export default function App({ Component, pageProps }: AppProps) {
             <Container fluid>
                 <Row>
                     <Sidebar user={user} isLoggedIn={isLoggedIn}/>
-                    <Col xs={10} id="page-content-wrapper">
+                    <Col lg={10} md={9} id="page-content-wrapper">
                         <Component {...pageProps} />
                     </Col>
                 </Row>

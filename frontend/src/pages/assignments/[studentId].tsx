@@ -11,6 +11,7 @@ export interface Assignment {
     num_questions: number;
     num_submitted: number;
     num_draft: number;
+    score:string
 }
 
 export interface IAssignmentProps {
@@ -61,12 +62,12 @@ export default function Assignment({ assignments,  error }: IAssignmentProps) {
                         return (
                             <tr key={assignment.assignment_id}>
                                 <td>{assignment.assignment_id}</td>
-                                <td>{completed ? "Submitted" : "Draft"} </td>
+                                <td>{assignment.score? "Scored":completed ? "Submitted" : "Draft"} </td>
                                 <td>
                                     {completed ? assignment.num_questions : assignment.num_draft}/
                                     {assignment.num_questions}
                                 </td>
-                                <td>-</td>
+                                <td>{assignment.score?assignment.score:"-"}</td>
                                 <td>
                                     <Button
                                         size="sm"

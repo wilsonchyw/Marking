@@ -3,15 +3,16 @@ import { Navbar, Nav, Container, Row, Col, Card, Button } from "react-bootstrap"
 import Divider from "../Divider";
 import Image from "react-bootstrap/Image";
 import Profile from "./Profile";
+import { IUser } from "@/interface";
 import { useRouter } from "next/router";
 
 export interface ISidebarProps {
     isLoggedIn: boolean;
-    user: {
-        user: string;
-        role: number;
-        id: number;
-    } | null;
+    user: IUser| null;
+}
+
+const style= {
+    
 }
 
 export default function Sidebar({ user, isLoggedIn }: ISidebarProps) {
@@ -22,7 +23,7 @@ export default function Sidebar({ user, isLoggedIn }: ISidebarProps) {
     };
 
     return (
-        <Col xs={2} id="sidebar-wrapper">
+        <Col lg={2} md={3} id="sidebar-wrapper">
             {user && isLoggedIn && (
                 <>
                     <Profile user={user} />

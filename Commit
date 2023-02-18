@@ -1,12 +1,11 @@
-Initial build of frontend
-Fonrtend:
-Student can view assignment status
-Student can draft and submit answer
-Instructor can view assignment status
+All basic function built
+Frontend:
+Fix student ans error
+Enhance AnsForm for reusable for both student and instructor
+Add Marking page for instructor
+
 Backend:
-Add JWT authentication
-Fix AssignmentsController
-Fix StudentAnswersService
-Fix AssignmentsService
-Fix Knex return string for count
-Add checking for studentAns update
+Built ScoreController and service
+Add getStudentById for UseController
+Add score in the returned assignment status in AssignmentsService
+Fix ModelService create return id bug(some table has composite pk)

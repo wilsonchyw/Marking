@@ -11,7 +11,7 @@ export default function Assignment(props: IAssignmentProps) {
 
     useEffect(() => {
         const fetchStudents = async () => {
-            const { data } = await axios.get("http://192.9.229.157:3000/student");
+            const { data } = await axios.get("http://192.9.229.157:3000/user/student");
             setStudents(data);
         };
         fetchStudents();

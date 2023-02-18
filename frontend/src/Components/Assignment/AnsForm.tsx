@@ -5,20 +5,19 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import Divider from "@/Components/Divider";
 import { Questions, StudentAns } from "@/pages/assignments/[studentId]/[assignmentId]";
+import FormAction from "./FormAction";
 export interface IAnsFormProps {
-    handleSave: Function;
-    handleAnsChange: Function;
+    handleAnsChange?: Function;
     studentAns: StudentAns;
     questions: Questions[];
-    msg:string
 }
 
-export default function AnsForm({ studentAns, questions, handleSave, handleAnsChange,msg }: IAnsFormProps) {
+export default function AnsForm({ studentAns, questions, handleAnsChange = () => {} }: IAnsFormProps) {
     return (
-        <Card.Body>
-            <Card.Text>
-                <Form>
-                    {questions.map((question, index) => (
+        <Card.Text>
+            <Form>
+                {questions.map((question, index) => (
+                    <>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                             <div>
                                 <Form.Label>Question {index + 1}</Form.Label>
@@ -36,7 +35,7 @@ export default function AnsForm({ studentAns, questions, handleSave, handleAnsCh
                                         type={question.type == "single" ? "radio" : "checkbox"}
                                         value={ans}
                                         label={ans}
-                                        disabled={studentAns[question.question_id].issubmit}
+                                        disabled={studentAns[question.question_id]?.issubmit || false}
                                     />
                                 ))
                             ) : (
@@ -44,22 +43,14 @@ export default function AnsForm({ studentAns, questions, handleSave, handleAnsCh
                                     type="text"
                                     onChange={(e) => handleAnsChange(e, question.question_id)}
                                     value={studentAns[question.question_id]?.student_answer[0] || ""}
+                                    disabled={studentAns[question.question_id]?.issubmit || false}
                                 />
                             )}
-                            <Divider />
                         </Form.Group>
-                    ))}
-                </Form>
-            </Card.Text>
-            <Card.Text>
-                <Button variant="primary" type="submit" onClick={() => handleSave(true)}>
-                    Submit
-                </Button>
-                <Button variant="secondary" type="submit" onClick={() => handleSave(false)}>
-                    Save draft
-                </Button>
-            </Card.Text>
-            {msg && <Alert variant={"primary"}>{msg}</Alert>}
-        </Card.Body>
+                        <Divider />
+                    </>
+                ))}
+            </Form>
+        </Card.Text>
     );
 }

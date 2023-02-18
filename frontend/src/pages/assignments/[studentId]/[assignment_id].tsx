@@ -5,6 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import Divider from "@/Components/Divider";
 import AnsForm from "@/Components/Assignment/AnsForm";
+import FormAction from "@/Components/Assignment/FormAction";
 export interface Questions {
     type: "text" | "single" | "multiple";
     content: string;
@@ -26,12 +27,12 @@ export interface StudentAns {
 export interface IAssignmentActionProps {
     questions: Questions[];
     studentAns: StudentAns;
-    assignmentId: number;
+    assignment_id: number;
 }
 
 export default function AssignmentAction(props: IAssignmentActionProps) {
     const router = useRouter();
-    const { studentId, assignmentId } = router.query;
+    const { studentId, assignment_id } = router.query;
     const [loading, setLoading] = useState<boolean>(true);
     const [questions, setQuestions] = useState<Questions[]>([]);
     const [studentAns, setStudentAns] = useState<StudentAns>({});
@@ -46,14 +47,14 @@ export default function AssignmentAction(props: IAssignmentActionProps) {
                 newAnswers[question_id] = {
                     student_answer: [],
                     issubmit: false,
-                    assignment_id: Number(assignmentId),
+                    assignment_id: Number(assignment_id),
                     question_id: question_id,
                 };
             }
             if (type == "radio") {
                 newAnswers[question_id].student_answer = [value];
             } else if (type == "checkbox") {
-                const newAns = new Set(prevAnswers[question_id].student_answer);
+                const newAns = new Set(prevAnswers[question_id]?.student_answer || []);
                 if (checked) {
                     newAns.add(value);
                 } else {
@@ -90,10 +91,10 @@ export default function AssignmentAction(props: IAssignmentActionProps) {
     };
 
     useEffect(() => {
-        if (!studentId || !assignmentId) return;
+        if (!studentId || !assignment_id) return;
         Promise.all([
-            axios.get(`http://192.9.229.157:3000/assignment/${assignmentId}`),
-            axios.get(`http://192.9.229.157:3000/assignment/${studentId}/${assignmentId}`),
+            axios.get(`http://192.9.229.157:3000/assignment/${assignment_id}`),
+            axios.get(`http://192.9.229.157:3000/assignment/${studentId}/${assignment_id}`),
         ])
             .then(([assignmentsQuestionResponse, sudentAnsResponse]) => {
                 setQuestions(assignmentsQuestionResponse.data);
@@ -104,7 +105,7 @@ export default function AssignmentAction(props: IAssignmentActionProps) {
                 console.log(err);
             })
             .finally(() => setLoading(false));
-    }, [studentId, assignmentId]);
+    }, [studentId, assignment_id]);
 
     if (error) {
         return (
@@ -131,13 +132,16 @@ export default function AssignmentAction(props: IAssignmentActionProps) {
                         {error ? (
                             <Alert variant={"danger"}>{error}</Alert>
                         ) : (
-                            <AnsForm
-                                studentAns={studentAns}
-                                questions={questions}
-                                handleSave={handleSave}
-                                handleAnsChange={handleAnsChange}
-                                msg={msg}
-                            />
+                            <Card.Body>
+                                <AnsForm
+                                    studentAns={studentAns}
+                                    questions={questions}
+                                    handleAnsChange={handleAnsChange}
+                                    msg={msg}
+                                />
+                                <FormAction handleSave={handleSave} />
+                                {msg && <Alert variant={"primary"}>{msg}</Alert>}
+                            </Card.Body>
                         )}
                     </Card>
                 </>
