@@ -5,6 +5,8 @@ import { GET } from "../decorators/restful";
 import AssignmentsService, { Assignment } from "../services/AssignmentsService";
 import Log from "log4fns";
 import { arrayToObject } from "../lib/arrayToObject";
+import RequestAuth from "../decorators/requireAuth";
+import { STUDENT,INSTRUCTOR } from "../lib/constant";
 
 @Injectable
 export default class AssignmentsController {
@@ -12,12 +14,14 @@ export default class AssignmentsController {
     protected service: AssignmentsService;
     public static defaultPath = "/question";
 
+    @RequestAuth(STUDENT)
     @GET("/assignment")
     async get(req: Request, res: Response): Promise<Assignment[]> {
         return this.service.getAll();
     }
 
     // Get questions and answer for single assignment
+    @RequestAuth(STUDENT)
     @GET("/assignment/:assignmentId")
     async getAssignmentsById(req: Request, res: Response) {
         const result = await this.service.getById(req.params.assignmentId);
@@ -37,6 +41,7 @@ export default class AssignmentsController {
         return result;
     }
 
+    @RequestAuth(STUDENT)
     @GET("/assignment/status/:userId")
     async getCompleteStatus(req: Request, res: Response) {
         const result = await this.service.getCompleteStatus(req.params.userId);

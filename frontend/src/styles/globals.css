@@ -63,8 +63,13 @@ html,
 body {
     max-width: 100vw;
     overflow-x: hidden;
+    margin: 0;
+    height: 100%;
 }
 
+#__next {
+    height: 100%;
+}
 body {
     color: rgb(var(--foreground-rgb));
 }
@@ -78,4 +83,21 @@ a {
     html {
         color-scheme: dark;
     }
+}
+
+.card {
+    margin-top: 0.5em;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.card.zoom:hover {
+    transform: scale(1.01);
+}
+
+
+.alert-fixed {
+    position:absolute !important;
+    top: 5%; 
+    left: 38.5%; 
+    z-index:9999; 
+    border-radius:0px;
 }

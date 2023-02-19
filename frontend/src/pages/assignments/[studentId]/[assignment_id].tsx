@@ -6,24 +6,7 @@ import { useRouter } from "next/router";
 import Divider from "@/Components/Divider";
 import AnsForm from "@/Components/Assignment/AnsForm";
 import FormAction from "@/Components/Assignment/FormAction";
-export interface Questions {
-    type: "text" | "single" | "multiple";
-    content: string;
-    assignment_id: number;
-    question_id: number;
-    ans_question_id: number | null;
-    answer: string[];
-}
-
-export interface StudentAns {
-    [key: string]: {
-        assignment_id: number;
-        question_id: number;
-        student_answer: string[];
-        issubmit: boolean;
-    };
-}
-
+import { Questions,StudentAns } from "@/Components/interface";
 export interface IAssignmentActionProps {
     questions: Questions[];
     studentAns: StudentAns;

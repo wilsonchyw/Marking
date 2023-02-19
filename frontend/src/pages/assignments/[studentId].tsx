@@ -1,18 +1,11 @@
 import * as React from "react";
-import { IAssignment } from "@/interface";
 import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Link from "next/link";
 import { Card, Button, Row, Badge, Table, Alert } from "react-bootstrap";
+import { Assignment } from "@/Components/interface";
 
-export interface Assignment {
-    assignment_id: number;
-    num_questions: number;
-    num_submitted: number;
-    num_draft: number;
-    score:string
-}
 
 export interface IAssignmentProps {
     assignments: Assignment[];
@@ -23,25 +16,7 @@ export default function Assignment({ assignments,  error }: IAssignmentProps) {
     const router = useRouter();
     const { studentId } = router.query;
 
-    /* const _assignments = assignments.map((assignment) => {
-        const { id } = assignment;
-        const completed = completeStatus[id].num_questions == completeStatus[id].num_submitted;
-        return (
-            <tr key={assignment.id}>
-                <td>{assignment.id}</td>
-                <td>{completed ? "Submitted" : "Draft"} </td>
-                <td>
-                    {completed?completeStatus[id].num_questions:completeStatus[id].num_draft}/{completeStatus[id].num_questions}
-                </td>
-                <td>{completed ? "-" : "-"}</td>
-                <td>
-                    <Button size="sm" disabled={completed ? true : false} onClick={()=>router.push(`/assignments/${studentId}/${id}`)}>
-                       Access
-                    </Button>
-                </td>
-            </tr>
-        );
-    }); */
+
     return (
         <div>
             <h1>Assignments for Course </h1>
@@ -89,13 +64,7 @@ export default function Assignment({ assignments,  error }: IAssignmentProps) {
 }
 
 export const getServerSideProps: GetServerSideProps<IAssignmentProps> = async (context) => {
-    /* const result = (await axios.get(`http://192.9.229.157:3000/assignment`)).data;
-    const complete;
-    const assignments = result.data;
 
-    return {
-        props: { assignments },
-    }; */
     const { studentId } = context.params;
     return axios
         .get(`http://192.9.229.157:3000/assignment/status/${studentId}`)
@@ -116,26 +85,4 @@ export const getServerSideProps: GetServerSideProps<IAssignmentProps> = async (c
             };
         });
 
-    /* return Promise.all([
-        axios.get(`http://192.9.229.157:3000/assignment`),
-        axios.get(`http://192.9.229.157:3000/assignment/complete/${studentId}`),
-    ])
-        .then(([assignmentsResponse, completeStatusResponse]) => {
-            return {
-                props: {
-                    assignments: assignmentsResponse.data,
-                    completeStatus: completeStatusResponse.data,
-                },
-            };
-        })
-        .catch((err) => {
-            console.log(err);
-            return {
-                props: {
-                    assignments: [],
-                    completeStatus: {},
-                    error: "Failed to load assignments",
-                },
-            };
-        }); */
 };

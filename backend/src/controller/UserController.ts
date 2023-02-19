@@ -7,6 +7,8 @@ import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import Log from "log4fns";
+import RequestAuth from "../decorators/requireAuth";
+import { STUDENT, INSTRUCTOR ,ADMIN} from "../lib/constant";
 
 const saltRounds = 10;
 
@@ -18,16 +20,20 @@ export default class UserController {
     private static userCache: Map<string, any> = new Map();
     constructor() {}
 
+    @RequestAuth(ADMIN)
     @GET("/user")
-    async getAllUser() {
+    async getAllUser(req: Request, res: Response) {
+        Log(req.user);
         return this.userService.getAll();
     }
 
+    @RequestAuth(INSTRUCTOR)
     @GET("/user/student")
     async getStudent() {
         return this.userService.getByRole(0);
     }
 
+    @RequestAuth(ADMIN)
     @GET("/user/student/:id")
     async getStudentById(req: Request, res: Response) {
         const { id } = req.params;
@@ -47,16 +53,15 @@ export default class UserController {
             throw new Error("Invalid credentials");
         }
         const expireTime = Math.floor(Date.now() / 1000) + 60 * 60 * 48; // 48 Hour
-        const token = jwt.sign(
-            { exp: expireTime, data: { username: user.username, role: user.role, id: user.id } },
-            process.env.SECRET_KEY
-        );
+
+        const token = jwt.sign({ exp: expireTime, data: { ...user, password: null } }, process.env.SECRET_KEY);
         // return some user data, like a token or user profile information
         UserController.userCache.set(token, true);
         Log(token);
         return token;
     }
 
+    @RequestAuth(INSTRUCTOR)
     @POST("/user")
     async createUser(req: Request, res: Response): Promise<User> {
         const { username, password, email, firstName, lastName, role } = req.body;
@@ -67,6 +72,7 @@ export default class UserController {
         return id;
     }
 
+    @RequestAuth(INSTRUCTOR)
     @PUT("/user")
     async updateUser(id: number, name?: string, email?: string): Promise<User> {
         const user = await this.userService.get(id);
@@ -81,6 +87,7 @@ export default class UserController {
         }
     }
 
+    @RequestAuth(INSTRUCTOR)
     @DELETE("/user")
     async deleteUser(id: number): Promise<boolean> {
         const deleted = await this.userService.delete(id);

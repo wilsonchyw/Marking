@@ -23,7 +23,9 @@
         "src/pages/[page].tsx,bak",
         "src/components/Grid/index.tsx.bak",
         "__tests__/UserService.test.ts",
-        "__tests__/UserModel.test.ts.bak"
+        "__tests__/UserModel.test.ts.bak",
+        "src/index.d.ts"
     ],
-    "exclude": ["node_modules"]
+    "exclude": ["node_modules"],
+    "files": ["src/index.d.ts"]
 }

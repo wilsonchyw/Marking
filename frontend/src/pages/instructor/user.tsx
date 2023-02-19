@@ -1,18 +1,11 @@
 import { ChangeEvent, useState } from "react";
 import UserForm from "@/Components/Manage/UserForm";
 import axios from "axios";
+import { IUser } from "@/Components/interface";
+import fetchHandler from "@/lib/fetchHandler";
+import { notificationRef } from "../_app";
 
 export interface IManageUserProps {}
-
-export interface IUser {
-    id?:number
-    firstName: string;
-    lastName: string;
-    username: string;
-    password: string;
-    role: number;
-    email: string;
-}
 
 export default function ManageUser(props: IManageUserProps) {
     const [user, setUser] = useState<IUser>({
@@ -31,15 +24,8 @@ export default function ManageUser(props: IManageUserProps) {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
-        axios
-            .post("http://192.9.229.157:3000/user", { ...user })
-            .then((response) => {
-                console.log("User created:", response.data);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        const callback = () => notificationRef.current.showNotification("User created");
+        fetchHandler("/user", callback, { data: user, method: "post" });
     };
     return (
         <>

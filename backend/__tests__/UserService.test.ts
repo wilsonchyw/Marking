@@ -1,5 +1,5 @@
 import Knex from "knex";
-import DB from "../src/model/constant";
+import DB from "../src/lib/constant";
 import UserService from "../src/services/UserService";
 import { IUser } from "../src/model/Question";
 

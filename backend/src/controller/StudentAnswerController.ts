@@ -5,17 +5,21 @@ import Injectable from "../decorators/injectable";
 import { GET, POST } from "../decorators/restful";
 import { arrayToObject } from "../lib/arrayToObject";
 import Log from "log4fns";
+import RequestAuth from "../decorators/requireAuth";
+import { STUDENT,INSTRUCTOR } from "../lib/constant";
 
 @Injectable
 export default class StudentAnswerController {
     @Inject(StudentAnswersService)
     protected service: StudentAnswersService;
 
+    @RequestAuth(STUDENT)
     @GET("/student_answer")
     async get(req: Request, res: Response): Promise<StudentAnswer[]> {
         return this.service.getAll();
     }
 
+    @RequestAuth(STUDENT)
     @GET("/assignment/:user_id/:assignment_id")
     async getStudentAns(req: Request, res: Response) {
         const { user_id, assignment_id } = req.params;
@@ -25,6 +29,7 @@ export default class StudentAnswerController {
         //return results.filter(result=>result.user_id == user_id && result.assignment_id==assignment_id)
     }
 
+    @RequestAuth(STUDENT)
     @POST("/assignment/questions/:user_id")
     async saveStudentAns(req: Request, res: Response) {
         const { user_id } = req.params;

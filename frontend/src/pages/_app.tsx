@@ -1,34 +1,36 @@
-import "@/styles/globals.css";
-import type { AppProps } from "next/app";
-import "bootstrap/dist/css/bootstrap.min.css";
 import Sidebar from "@/Components/Frame/Sidebar";
-import _Navbar from "@/Components/Frame/_Navbar";
-import { Navbar, Nav, Container, Row, Col } from "react-bootstrap";
+import Notification from "@/Components/Notification";
 import useLogin from "@/lib/useLogin";
+import "@/styles/globals.css";
+import "@/styles/page.css";
+import "@/styles/sidebar.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
+import { Col, Row } from "react-bootstrap";
+
+export const notificationRef = React.createRef();
 
 export default function App({ Component, pageProps }: AppProps) {
     const router = useRouter();
-    const { isLoggedIn, user,checking } = useLogin();
-    console.log({isLoggedIn})
-    
+    const { isLoggedIn, user, checking } = useLogin();
+
     useEffect(() => {
-        if (!isLoggedIn && !checking) {            
+        if (!isLoggedIn && !checking) {
             router.push("/login");
         }
-    }, [isLoggedIn,checking]);
+    }, [isLoggedIn, checking]);
+    
     return (
-        <>
-            <_Navbar />
-            <Container fluid>
-                <Row>
-                    <Sidebar user={user} isLoggedIn={isLoggedIn}/>
-                    <Col lg={10} md={9} id="page-content-wrapper">
-                        <Component {...pageProps} />
-                    </Col>
-                </Row>
-            </Container>
-        </>
+        <div>
+            <Notification ref={notificationRef} />
+            <Row style={{ height: "100vh" }}>
+                <Sidebar user={user} isLoggedIn={isLoggedIn} />
+                <Col lg={10} md={9}>
+                    <Component {...pageProps} />
+                </Col>
+            </Row>
+        </div>
     );
 }

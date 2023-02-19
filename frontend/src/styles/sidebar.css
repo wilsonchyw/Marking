@@ -1,0 +1,24 @@
+.sidebar {
+    background-color: #313a46;
+    color: #8391a2;
+}
+.sidebar li {
+    list-style-type: none;
+    padding: 15px 20px 20px 15px;
+}
+
+.sidebar li:hover {
+    color: #e3e9f0;
+}
+
+.sidebar .item-title {
+    padding-bottom: 0px;
+    padding-left: 0px !important;
+    margin-left: -10px;
+    border-bottom: solid 0.1px rgb(162, 169, 177);
+}
+
+.sidebar .profile div{
+    margin: auto;
+    text-align: center;
+}

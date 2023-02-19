@@ -4,9 +4,13 @@ import Log from "log4fns";
 import "reflect-metadata";
 import Router from "./router";
 import { types } from "pg";
+import { User } from "./services/UserService";
 types.setTypeParser(20, function (val) {
     return parseInt(val, 10);
 });
+
+
+
 
 class App {
     private instance: Express;
