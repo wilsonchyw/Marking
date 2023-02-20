@@ -8,7 +8,7 @@ export default class AuthController {
     private static readonly expireTime = Math.floor(Date.now() / 1000) + 60 * 60 * 48; // 48 Hour
 
     static async login(user: User, password: String) {
-        Log(user);
+        //Log(user);
         const match = await bcrypt.compare(password, user.password);
 
         if (!match) {

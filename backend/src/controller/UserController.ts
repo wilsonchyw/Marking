@@ -4,7 +4,7 @@ import Inject from "../decorators/inject";
 import Injectable from "../decorators/injectable";
 import RequestAuth from "../decorators/requireAuth";
 import { GET, POST } from "../decorators/restful";
-import { ADMIN, INSTRUCTOR, STUDENT } from "../lib/constant";
+import { INSTRUCTOR, STUDENT } from "../lib/constant";
 import UserService, { User } from "../services/UserService";
 import AuthController from "./AuthController";
 
@@ -15,18 +15,6 @@ export default class UserController {
     @Inject(UserService)
     private readonly userService: UserService;
     constructor() {}
-
-    @RequestAuth(INSTRUCTOR)
-    @GET("/user")
-    async getAllUser(req: Request, res: Response) {
-        return this.userService.getAll();
-    }
-
-    @RequestAuth(INSTRUCTOR)
-    @GET("/user/student")
-    async getStudent() {
-        return this.userService.getBy("role", STUDENT);
-    }
 
     @POST("/login")
     async login(req: Request, res: Response) {
@@ -45,6 +33,12 @@ export default class UserController {
         return AuthController.logout(token);
     }
 
+    @RequestAuth(INSTRUCTOR)
+    @GET("/user")
+    async getAllUser(req: Request, res: Response) {
+        return this.userService.getAll();
+    }
+
     /**
      * A route handler function that creates a new user with the specified credentials and role.
      * @param {Object} req - The Express request object.
@@ -59,5 +53,18 @@ export default class UserController {
         const user = { username, email, firstName, lastName, role, password: hash };
         const id = await this.userService.create(user);
         return id;
+    }
+
+    @RequestAuth(INSTRUCTOR)
+    @GET("/user/student")
+    async getStudent() {
+        return this.userService.getBy("role", STUDENT);
+    }
+
+    @RequestAuth(INSTRUCTOR)
+    @GET("/user/student/:user_id")
+    async getUserById(req: Request, res: Response) {
+        const { user_id } = req.params;
+        return this.userService.getBy("id", parseInt(user_id));
     }
 }

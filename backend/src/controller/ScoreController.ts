@@ -5,18 +5,21 @@ import RequestAuth from "../decorators/requireAuth";
 import { GET, POST } from "../decorators/restful";
 import { INSTRUCTOR, STUDENT } from "../lib/constant";
 import ScoreService, { AssignmentsScore } from "../services/ScoreService";
+import AssignmentsService from "../services/AssignmentsService";
+import EmailService from "../services/EmailService";
+import UserService from "../services/UserService";
+import Log from "log4fns";
 
 @Injectable
 export default class ScoreController {
     @Inject(ScoreService)
     protected service: ScoreService;
 
-    @RequestAuth(STUDENT)
-    @GET("/assignment/score/all")
-    async getAll(req: Request, res: Response): Promise<AssignmentsScore> {
-        const { id } = req.user;
-        return this.service.getAllScore(id);
-    }
+    @Inject(AssignmentsService)
+    private assignMentservice: AssignmentsService;
+
+    @Inject(UserService)
+    private userService: UserService;
 
     /**
      * Retrieves the score for a specific assignment for the current authenticated student user.
@@ -53,6 +56,23 @@ export default class ScoreController {
             assignment_id: parseInt(assignment_id),
             user_id: parseInt(user_id),
         };
-        return this.service.createScore(obj);
+        const scoredObj = await this.service.createScore(obj);
+        await this.notifyIfAllScored(user_id);
+        return scoredObj;
+    }
+
+    async notifyIfAllScored(user_id: string) {
+        const assignments = await this.assignMentservice.getCompleteStatus(user_id);
+        const allScored = !assignments.some((x) => x.score == null);
+        if (allScored) {
+            const student = await this.userService.getBy("id", user_id);
+            const { email, firstName, lastName } = student[0];
+            const emailOption = {
+                receiver: email,
+                title: "Assignment marking completed",
+                content: `Dear ${lastName} ${firstName}\nYou assignment marking is complete, please check in the system`,
+            };
+            await EmailService.sendEmail(emailOption);
+        }
     }
 }

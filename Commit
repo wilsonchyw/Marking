@@ -1,12 +1,8 @@
-Security and UI enhance
+Add email services
 Frontend:
-Change all api call in frontend to fetchhandler for better auth control
-Add useAuth hook for fontend auth control
-UI enhance
-Separate instructor and student UI
+UI enhanced
 
 Backend:
-Add AuthController to handle login, logout and token
-Add propar auth control for all route
-Reformat api route
 Remove unnecessary controller and services
+Fix getCompleteStatus that student can only get it's own status
+Add EmailService, an email will sent to student's email if all assignment is scored

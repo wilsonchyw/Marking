@@ -2,7 +2,7 @@ import "dotenv/config";
 import Knex from "knex";
 import Log from "log4fns";
 import Injectable from "../decorators/injectable";
-
+import config from "../knexfile"
 @Injectable
 class Database {
     private readonly _knex: any;
@@ -20,7 +20,8 @@ class Database {
             },
             fetchAsString: []
         };
-        this._knex = Knex(option);
+        this._knex = Knex(config.development);
+        this.testConnect()
     }
     async testConnect() {
         await this._knex.raw("SELECT 1+1 AS result");

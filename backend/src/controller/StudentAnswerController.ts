@@ -6,7 +6,7 @@ import { GET, POST } from "../decorators/restful";
 import { arrayToObject } from "../lib/arrayToObject";
 import Log from "log4fns";
 import RequestAuth from "../decorators/requireAuth";
-import { STUDENT,INSTRUCTOR } from "../lib/constant";
+import { STUDENT, INSTRUCTOR } from "../lib/constant";
 
 @Injectable
 export default class StudentAnswerController {
@@ -30,20 +30,21 @@ export default class StudentAnswerController {
     }
 
     @RequestAuth(STUDENT)
-    @POST("/assignment/questions/:user_id")
+    @POST("/assignment/questions")
     async saveStudentAns(req: Request, res: Response) {
-        const { user_id } = req.params;
+        //const { user_id } = req.params;
+        const { id } = req.user;
         const answers = req.body;
         try {
             for (const answer of answers) {
                 const studentAnswer = {
-                    user_id: parseInt(user_id),
+                    user_id: id,
                     answer: answer.student_answer,
                     issubmit: answer.issubmit,
-                    question_id:answer.question_id
+                    question_id: answer.question_id,
                 };
                 if (answer.student_answers_id) {
-                    await this.service.updateStudentAns(answer.student_answers_id,studentAnswer);
+                    await this.service.updateStudentAns(answer.student_answers_id, studentAnswer);
                 } else {
                     await this.service.create(studentAnswer);
                 }

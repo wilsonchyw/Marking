@@ -4,7 +4,7 @@ import Inject from "../decorators/inject";
 import Injectable from "../decorators/injectable";
 import RequestAuth from "../decorators/requireAuth";
 import { GET } from "../decorators/restful";
-import { STUDENT,INSTRUCTOR } from "../lib/constant";
+import { STUDENT, INSTRUCTOR } from "../lib/constant";
 import AssignmentsService, { Assignment } from "../services/AssignmentsService";
 
 @Injectable
@@ -49,16 +49,20 @@ export default class AssignmentsController {
     }
 
     @RequestAuth(STUDENT)
-    @GET("/assignment/status/:userId")
+    @GET("/assignment/status/:user_id")
     async getCompleteStatus(req: Request, res: Response) {
-        const result = await this.service.getCompleteStatus(req.params.userId);
+        const { user_id } = req.params;
+        const user = req.user;
+        if (user.role == STUDENT && user.id != user_id) throw "Not enough permission";
+        const result = await this.service.getCompleteStatus(user_id);
         return result;
     }
 
     @RequestAuth(INSTRUCTOR)
-    @GET("/instructor/assignment/:userId")
+    @GET("/instructor/assignment/:user_id")
     async getCompletedAssignmentsByUserId(req: Request, res: Response) {
-        const result = await this.service.getCompletedByUserId(req.params.userId);
+        const { user_id } = req.params;
+        const result = await this.service.getCompletedByUserId(user_id);
         return result;
     }
 }

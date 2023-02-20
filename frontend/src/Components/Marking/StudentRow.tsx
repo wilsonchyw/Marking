@@ -4,7 +4,7 @@ import { IUser } from "./user";
 
 export default function StudentRow({ student }: { student: IUser }): JSX.Element {
     return (
-        <Card key={student.id} className="zoom">
+        <Card  className="zoom">
             <Card.Body>
                 <Row>
                     <Col md={3}>
@@ -20,7 +20,7 @@ export default function StudentRow({ student }: { student: IUser }): JSX.Element
                     </Col>
                     <Col md={3}>
                         <Link href={`/instructor/assignment/${student.id}`}>
-                            <Button variant="primary" size="sm">
+                            <Button variant="secondary" size="sm">
                                 View
                             </Button>
                         </Link>

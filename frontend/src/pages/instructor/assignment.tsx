@@ -14,7 +14,7 @@ export default function Assignment(props: IAssignmentProps) {
 
 
     return (
-        <Container classname="card-table">
+        <Container className="card-table">
             <h4 className="page-title">Marking</h4>
             <Card>
                 <Card.Body className="card-table-title">
@@ -27,7 +27,7 @@ export default function Assignment(props: IAssignmentProps) {
                 </Card.Body>
             </Card>
             {students.map((student: IUser) => (
-                <StudentRow student={student} />
+                <StudentRow student={student} key={student.id}/>
             ))}
         </Container>
     );

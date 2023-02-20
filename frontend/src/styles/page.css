@@ -1,16 +1,17 @@
 .page-title{
-    color:#6c757d;
+    color:#545454;
     margin: 1%;
 }
 
 .card-table-title {
     font-weight: 700 !important;
     font-size: 15px !important;
+    color:#545454 !important;
 }
 
 .card-table{
     font-weight: 600 !important;
     font-size: 15px !important;
-    color:rgb(108,117,125) !important;
+    color:#545454 !important;
 }
 

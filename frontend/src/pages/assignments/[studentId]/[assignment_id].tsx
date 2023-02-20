@@ -57,7 +57,7 @@ export default function AssignmentAction(props: IAssignmentActionProps) {
     const handleSave = (submit: boolean) => {
         if (msg) return;
         const _studentAns = Object.values(studentAns).map((ans) => ({ ...ans, issubmit: submit }));
-        fetchHandler(`/assignment/questions/${studentId}`, null, { data: _studentAns, method: "post" })
+        fetchHandler(`/assignment/questions`, null, { data: _studentAns, method: "post" })
             .then((res) => {
                 //console.log(res);
                 if (submit) {
@@ -103,7 +103,6 @@ export default function AssignmentAction(props: IAssignmentActionProps) {
                             studentAns={studentAns}
                             questions={questions}
                             handleAnsChange={handleAnsChange}
-                            msg={msg}
                         />
                         <FormAction handleSave={handleSave} />
                         {msg && <Alert variant={"primary"}>{msg}</Alert>}

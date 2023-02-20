@@ -21,16 +21,16 @@ export default function MarkingPage(props: IMarkingPageProps) {
     const [scored, setScored] = useState<boolean>(false);
     const [msg, setMsg] = useState<string>("");
 
-
     const { studentId } = router.query;
 
     const handleGrade = () => {
         const callback = () => {
             setMsg("Grade assignment success");
             setScored(true);
+            fetchHandler(`/assignment/status/${studentId}`, setAssignments);
         };
         fetchHandler(`/instructor/assignment/${assignmentId}/${studentId}`, callback, {
-            data: {score},
+            data: { score },
             method: "post",
             errorMessage: "Failed to grade assignments",
         });
@@ -62,11 +62,11 @@ export default function MarkingPage(props: IMarkingPageProps) {
     return (
         <Row className="m-2">
             <Col md={4}>
-                {student && <StudentProfile user={student} />}
+                {student && <StudentProfile user={student[0]} />}
                 <Card>
-                    <Card.Body className="card-table-title">
+                    <Card.Body className="card-table-title ">
                         <Row>
-                            <Col md={4}>IAssignment</Col>
+                            <Col md={4}>Assignment</Col>
                             <Col md={5}>status</Col>
                             <Col md={3}>Action</Col>
                         </Row>

@@ -22,7 +22,7 @@ export default function StudentAnsFrame({
     msg,
 }: IStudentAnsProps) {
     return (
-        <Card>
+        <Card className="card-table">
             <Card.Body>
                 <AnsForm studentAns={studentAns} questions={questions} />
                 <Form.Control
@@ -31,7 +31,7 @@ export default function StudentAnsFrame({
                     value={score}
                     disabled={scored ? true : false}
                 />
-                <Button size="sm" className="my-2" onClick={handleGrade} disabled={scored ? true : false}>
+                <Button size="sm" className="my-2" onClick={handleGrade} disabled={scored ? true : false} variant="secondary">
                     Grade assignment
                 </Button>
                 {msg && <Alert variant={"primary"}>{msg}</Alert>}

@@ -88,7 +88,7 @@ export default function UserForm({
                 </Form.Control>
             </Form.Group>
 
-            <Button variant="primary" type="submit" className="my-2">
+            <Button variant="secondary" type="submit" className="my-2" >
                 Create user
             </Button>
         </Form>

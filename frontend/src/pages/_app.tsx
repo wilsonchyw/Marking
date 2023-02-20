@@ -31,7 +31,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 <Sidebar user={user} isLoggedIn={isLoggedIn} />
 
                 <Col lg={10} md={9}>
-                    <Component {...pageProps} />
+                    <Component {...pageProps} user={user}/>
                 </Col>
             </Row>
         </div>

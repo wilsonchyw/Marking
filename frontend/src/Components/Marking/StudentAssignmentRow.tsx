@@ -9,7 +9,7 @@ export interface IStudentAssignmentRowProps {
 export default function StudentAssignmentRow({ assignment, fetchStudentAns }: IStudentAssignmentRowProps) {
     const completed = assignment.num_questions == assignment.num_submitted;
     return (
-        <Card key={assignment.assignment_id} className="zoom">
+        <Card key={assignment.assignment_id} className="zoom card-table">
             <Card.Body>
                 <Row>
                     <Col md={4}>
@@ -22,6 +22,7 @@ export default function StudentAssignmentRow({ assignment, fetchStudentAns }: IS
                     </Col>
                     <Col md={3}>
                         <Button
+                            variant="secondary"
                             size="sm"
                             disabled={completed ? false : true}
                             onClick={() => fetchStudentAns(assignment.assignment_id)}
