@@ -1,12 +1,11 @@
 import { Request, Response } from "express";
+import Log from "log4fns";
 import Inject from "../decorators/inject";
 import Injectable from "../decorators/injectable";
-import { GET } from "../decorators/restful";
-import AssignmentsService, { Assignment } from "../services/AssignmentsService";
-import Log from "log4fns";
-import { arrayToObject } from "../lib/arrayToObject";
 import RequestAuth from "../decorators/requireAuth";
+import { GET } from "../decorators/restful";
 import { STUDENT,INSTRUCTOR } from "../lib/constant";
+import AssignmentsService, { Assignment } from "../services/AssignmentsService";
 
 @Injectable
 export default class AssignmentsController {
@@ -20,7 +19,15 @@ export default class AssignmentsController {
         return this.service.getAll();
     }
 
-    // Get questions and answer for single assignment
+    /**
+     * A route handler function that returns the list of questions and their answers for a specific assignment ID.
+     *
+     * @function
+     * @param {Object} req - The Express request object.
+     * @param {Object} res - The Express response object.
+     * @param {string} req.params.assignmentId - The ID of the assignment to retrieve questions and answers for.
+     * @returns {Promise<Array<Object>>} An array of question objects with their associated answers.
+     */
     @RequestAuth(STUDENT)
     @GET("/assignment/:assignmentId")
     async getAssignmentsById(req: Request, res: Response) {
@@ -30,13 +37,13 @@ export default class AssignmentsController {
             const questions = result.reduce((acc, curr) => {
                 const key = curr.question_id;
                 if (!acc[key]) {
-                    const {id,answer,...rest} = curr
-                    acc[key] = {...rest,answer:[]};
+                    const { id, answer, ...rest } = curr;
+                    acc[key] = { ...rest, answer: [] };
                 }
                 acc[key].answer.push(curr.answer);
                 return acc;
             }, {});
-            return Object.values(questions)
+            return Object.values(questions);
         }
         return result;
     }
@@ -45,25 +52,13 @@ export default class AssignmentsController {
     @GET("/assignment/status/:userId")
     async getCompleteStatus(req: Request, res: Response) {
         const result = await this.service.getCompleteStatus(req.params.userId);
-        return result
-        return arrayToObject(result,"assignment_id");
-        if (result.length) {
-            const completeStatus = result.reduce((acc, curr) => {
-                const {assignment_id} = curr;
-                acc[assignment_id] = curr;
-                return acc;
-            }, {});
-            return completeStatus
-        }
-        
+        return result;
     }
 
-
-
-    @GET("/instructor/assignment/:id")
+    @RequestAuth(INSTRUCTOR)
+    @GET("/instructor/assignment/:userId")
     async getCompletedAssignmentsByUserId(req: Request, res: Response) {
-        Log(req.params.id);
-        const result = await this.service.getCompletedByUserId(req.params.id);
+        const result = await this.service.getCompletedByUserId(req.params.userId);
         return result;
     }
 }

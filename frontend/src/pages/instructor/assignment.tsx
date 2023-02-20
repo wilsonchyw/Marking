@@ -1,8 +1,8 @@
+import { IUser } from "@/Components/interface";
 import StudentRow from "@/Components/Marking/StudentRow";
 import fetchHandler from "@/lib/fetchHandler";
 import { useEffect, useState } from "react";
 import { Card, Col, Container, Row } from "react-bootstrap";
-import { IUser } from "./user";
 export interface IAssignmentProps {}
 
 export default function Assignment(props: IAssignmentProps) {
@@ -11,6 +11,7 @@ export default function Assignment(props: IAssignmentProps) {
     useEffect(() => {
         fetchHandler("/user/student", setStudents);
     }, []);
+
 
     return (
         <Container classname="card-table">

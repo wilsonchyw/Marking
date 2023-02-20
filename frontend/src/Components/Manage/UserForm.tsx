@@ -1,26 +1,22 @@
-import * as React from "react";
+import { IUser } from "../interface";
 import { Button, Form } from "react-bootstrap";
-import { IUser } from "@/pages/instructor/user";
 export interface IStudentFormProps {
     handleSubmit: Function;
     handleInput: Function;
+    setEmailAsUsername: Function;
+    emailAsUsername: boolean;
     user: IUser;
 }
 
-export default function UserForm({ handleSubmit, handleInput, user }: IStudentFormProps) {
+export default function UserForm({
+    handleSubmit,
+    handleInput,
+    user,
+    emailAsUsername,
+    setEmailAsUsername,
+}: IStudentFormProps) {
     return (
         <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="username">
-                <Form.Label>Username</Form.Label>
-                <Form.Control
-                    type="text"
-                    placeholder="Enter username"
-                    name="username"
-                    value={user.username}
-                    onChange={handleInput}
-                />
-            </Form.Group>
-
             <Form.Group controlId="email">
                 <Form.Label>Email</Form.Label>
                 <Form.Control
@@ -29,6 +25,24 @@ export default function UserForm({ handleSubmit, handleInput, user }: IStudentFo
                     name="email"
                     value={user.email}
                     onChange={handleInput}
+                />
+                <Form.Check
+                    checked={emailAsUsername}
+                    onChange={() => setEmailAsUsername(!emailAsUsername)}
+                    type="checkbox"
+                    label={"user email as username"}
+                />
+            </Form.Group>
+
+            <Form.Group controlId="username">
+                <Form.Label>Username</Form.Label>
+                <Form.Control
+                    type="text"
+                    placeholder="Enter username"
+                    name="username"
+                    value={user.username}
+                    onChange={handleInput}
+                    disabled={emailAsUsername}
                 />
             </Form.Group>
 
@@ -74,7 +88,7 @@ export default function UserForm({ handleSubmit, handleInput, user }: IStudentFo
                 </Form.Control>
             </Form.Group>
 
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" className="my-2">
                 Create user
             </Button>
         </Form>

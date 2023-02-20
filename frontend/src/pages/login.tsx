@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useRouter } from "next/router";
-import _axios ,{setToken} from "@/lib/axios";
+import _axios, { setToken } from "@/lib/axios";
 
 export interface ILoginProps {}
 
@@ -28,8 +28,8 @@ export default function Login(props: ILoginProps) {
                 router.push("/");
             })
             .catch((err) => {
-                if(err.response) return setError(err.response.data.message);
-                console.log(err)
+                if (err.response) return setError(err.response.data.message);
+                console.log(err);
                 setError("Invalid username or password");
             })
             .finally(() => setIsLoading(false));
@@ -37,38 +37,37 @@ export default function Login(props: ILoginProps) {
 
     return (
         <Container>
-            <Row className="justify-content-md-center">
-                <Col xs={12} md={6}>
-                    <h2>Login</h2>
-                    <Form onSubmit={handleLogin}>
-                        <Form.Group controlId="formUsername">
-                            <Form.Label>Username</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="Enter username"
-                                value={username}
-                                onChange={(event) => setUsername(event.target.value)}
-                            />
-                        </Form.Group>
+            <div className="w-50 mx-auto mt-5">
+                <h2>Marking System</h2>
 
-                        <Form.Group controlId="formPassword">
-                            <Form.Label>Password</Form.Label>
-                            <Form.Control
-                                type="password"
-                                placeholder="Enter password"
-                                value={password}
-                                onChange={(event) => setPassword(event.target.value)}
-                            />
-                        </Form.Group>
+                <Form onSubmit={handleLogin}>
+                    <Form.Group controlId="formUsername">
+                        <Form.Label>Username</Form.Label>
+                        <Form.Control
+                            type="text"
+                            placeholder="Enter username"
+                            value={username}
+                            onChange={(event) => setUsername(event.target.value)}
+                        />
+                    </Form.Group>
 
-                        {error && <p className="text-danger">{error}</p>}
+                    <Form.Group controlId="formPassword">
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control
+                            type="password"
+                            placeholder="Enter password"
+                            value={password}
+                            onChange={(event) => setPassword(event.target.value)}
+                        />
+                    </Form.Group>
 
-                        <Button variant="primary" type="submit" disabled={isLoading}>
-                            {isLoading ? "Loading..." : "Login"}
-                        </Button>
-                    </Form>
-                </Col>
-            </Row>
+                    {error && <p className="text-danger">{error}</p>}
+
+                    <Button variant="primary" type="submit" disabled={isLoading} className="my-3">
+                        {isLoading ? "Loading..." : "Login"}
+                    </Button>
+                </Form>
+            </div>
         </Container>
     );
 }

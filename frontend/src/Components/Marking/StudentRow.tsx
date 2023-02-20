@@ -16,11 +16,11 @@ export default function StudentRow({ student }: { student: IUser }): JSX.Element
                         <Card.Subtitle className="py-1">{student.username}</Card.Subtitle>
                     </Col>
                     <Col md={3}>
-                        <Card.Subtitle className="text-muted py-1">{student.email}</Card.Subtitle>
+                        <Card.Subtitle className="py-1">{student.email}</Card.Subtitle>
                     </Col>
                     <Col md={3}>
                         <Link href={`/instructor/assignment/${student.id}`}>
-                            <Button variant="secondary" size="sm">
+                            <Button variant="primary" size="sm">
                                 View
                             </Button>
                         </Link>

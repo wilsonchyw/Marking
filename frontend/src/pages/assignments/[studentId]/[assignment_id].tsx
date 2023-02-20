@@ -1,15 +1,14 @@
-import { useState, useEffect } from "react";
-import { GetServerSideProps, NextPage } from "next";
-import { Card, Button, Row, Badge, Table, Alert, Container, Form } from "react-bootstrap";
-import axios from "axios";
-import { useRouter } from "next/router";
-import Divider from "@/Components/Divider";
 import AnsForm from "@/Components/Assignment/AnsForm";
 import FormAction from "@/Components/Assignment/FormAction";
-import { Questions,StudentAns } from "@/Components/interface";
+import { IQuestions, IStudentAns } from "@/Components/interface";
+import fetchHandler from "@/lib/fetchHandler";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { Alert, Card, Container } from "react-bootstrap";
+
 export interface IAssignmentActionProps {
-    questions: Questions[];
-    studentAns: StudentAns;
+    questions: IQuestions[];
+    studentAns: IStudentAns;
     assignment_id: number;
 }
 
@@ -17,13 +16,14 @@ export default function AssignmentAction(props: IAssignmentActionProps) {
     const router = useRouter();
     const { studentId, assignment_id } = router.query;
     const [loading, setLoading] = useState<boolean>(true);
-    const [questions, setQuestions] = useState<Questions[]>([]);
-    const [studentAns, setStudentAns] = useState<StudentAns>({});
+    const [questions, setQuestions] = useState<IQuestions[]>([]);
+    const [studentAns, setStudentAns] = useState<IStudentAns>({});
     const [error, setError] = useState<string>("");
     const [msg, setMsg] = useState<string>("");
     const handleAnsChange = (event, question_id) => {
         setMsg("");
-        const { name, value, checked, type } = event.target;
+        let { name, value, checked, type } = event.target;
+        value = String(value);
         setStudentAns((prevAnswers) => {
             const newAnswers = { ...prevAnswers };
             if (!newAnswers[question_id]) {
@@ -57,10 +57,9 @@ export default function AssignmentAction(props: IAssignmentActionProps) {
     const handleSave = (submit: boolean) => {
         if (msg) return;
         const _studentAns = Object.values(studentAns).map((ans) => ({ ...ans, issubmit: submit }));
-        axios
-            .post(`http://192.9.229.157:3000/assignment/questions/${studentId}`, _studentAns)
+        fetchHandler(`/assignment/questions/${studentId}`, null, { data: _studentAns, method: "post" })
             .then((res) => {
-                console.log(res);
+                //console.log(res);
                 if (submit) {
                     router.push(`/assignments/${studentId}`);
                 } else {
@@ -69,25 +68,14 @@ export default function AssignmentAction(props: IAssignmentActionProps) {
             })
             .catch((err) => {
                 setMsg("Failed to save answer");
-                console.log(err);
+                //console.log(err);
             });
     };
 
     useEffect(() => {
         if (!studentId || !assignment_id) return;
-        Promise.all([
-            axios.get(`http://192.9.229.157:3000/assignment/${assignment_id}`),
-            axios.get(`http://192.9.229.157:3000/assignment/${studentId}/${assignment_id}`),
-        ])
-            .then(([assignmentsQuestionResponse, sudentAnsResponse]) => {
-                setQuestions(assignmentsQuestionResponse.data);
-                setStudentAns(sudentAnsResponse.data);
-            })
-            .catch((err) => {
-                setError("Failed to load assignments");
-                console.log(err);
-            })
-            .finally(() => setLoading(false));
+        fetchHandler(`/assignment/${assignment_id}`, setQuestions);
+        fetchHandler(`/assignment/${studentId}/${assignment_id}`, setStudentAns);
     }, [studentId, assignment_id]);
 
     if (error) {
@@ -98,37 +86,30 @@ export default function AssignmentAction(props: IAssignmentActionProps) {
         );
     }
 
-    console.log({ studentAns });
     return (
         <Container>
-            {loading ? (
-                <Alert variant={"primary"}>Loading...</Alert>
-            ) : (
-                <>
-                    <Card>
-                        <Card.Body>
-                            <Card.Title>Assignment {1}</Card.Title>
-                            <Card.Subtitle className="mb-2 text-muted">Not submitted</Card.Subtitle>
-                        </Card.Body>
-                    </Card>
-                    <Card>
-                        {error ? (
-                            <Alert variant={"danger"}>{error}</Alert>
-                        ) : (
-                            <Card.Body>
-                                <AnsForm
-                                    studentAns={studentAns}
-                                    questions={questions}
-                                    handleAnsChange={handleAnsChange}
-                                    msg={msg}
-                                />
-                                <FormAction handleSave={handleSave} />
-                                {msg && <Alert variant={"primary"}>{msg}</Alert>}
-                            </Card.Body>
-                        )}
-                    </Card>
-                </>
-            )}
+            <Card>
+                <Card.Body>
+                    <Card.Title>Assignment {1}</Card.Title>
+                    <Card.Subtitle className="mb-2 text-muted">Not submitted</Card.Subtitle>
+                </Card.Body>
+            </Card>
+            <Card>
+                {error ? (
+                    <Alert variant={"danger"}>{error}</Alert>
+                ) : (
+                    <Card.Body>
+                        <AnsForm
+                            studentAns={studentAns}
+                            questions={questions}
+                            handleAnsChange={handleAnsChange}
+                            msg={msg}
+                        />
+                        <FormAction handleSave={handleSave} />
+                        {msg && <Alert variant={"primary"}>{msg}</Alert>}
+                    </Card.Body>
+                )}
+            </Card>
         </Container>
     );
 }

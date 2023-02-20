@@ -3,8 +3,6 @@ import Image from "next/image";
 import { Inter } from "@next/font/google";
 import styles from "@/styles/Home.module.css";
 
-const inter = Inter({ subsets: ["latin"] });
-
 export default function Home() {
-    return <>Hello</>;
+    return <h2 style={{ position: "fixed", top: "50%", left: "50%" }}>Welcome to marking</h2>;
 }

@@ -1,5 +1,3 @@
-import { FunctionComponent } from "react";
-import { Stack } from "react-bootstrap";
 
 export interface IDividerProps {
     className?: string;

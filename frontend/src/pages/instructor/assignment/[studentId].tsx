@@ -1,9 +1,8 @@
 import StudentProfile from "@/Components/Frame/StudentProfile";
-import { Questions, StudentAns } from "@/Components/interface";
+import { IQuestions, IStudentAns, IAssignment } from "@/Components/interface";
 import StudentAssignmentRow from "@/Components/Marking/StudentAssignmentRow";
 import { IUser } from "@/interface";
 import fetchHandler from "@/lib/fetchHandler";
-import { Assignment } from "@/pages/assignments/[studentId]";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
@@ -15,14 +14,14 @@ export default function MarkingPage(props: IMarkingPageProps) {
     const router = useRouter();
     const [student, setStudent] = useState<IUser | null>(null);
     const [assignmentId, setAssignmentId] = useState<number | null>();
-    const [assignments, setAssignments] = useState<Assignment[]>([]);
-    const [questions, setQuestions] = useState<Questions[]>([]);
-    const [studentAns, setStudentAns] = useState<StudentAns | null>(null);
+    const [assignments, setAssignments] = useState<IAssignment[]>([]);
+    const [questions, setQuestions] = useState<IQuestions[]>([]);
+    const [studentAns, setStudentAns] = useState<IStudentAns | null>(null);
     const [score, setScore] = useState<string>("");
     const [scored, setScored] = useState<boolean>(false);
     const [msg, setMsg] = useState<string>("");
 
-    console.log(assignments);
+
     const { studentId } = router.query;
 
     const handleGrade = () => {
@@ -30,8 +29,8 @@ export default function MarkingPage(props: IMarkingPageProps) {
             setMsg("Grade assignment success");
             setScored(true);
         };
-        fetchHandler(`/assignment/score/${assignmentId}/${studentId}`, callback, {
-            data: score,
+        fetchHandler(`/instructor/assignment/${assignmentId}/${studentId}`, callback, {
+            data: {score},
             method: "post",
             errorMessage: "Failed to grade assignments",
         });
@@ -44,7 +43,7 @@ export default function MarkingPage(props: IMarkingPageProps) {
 
         fetchHandler(`/assignment/${assignment_id}`, setQuestions);
         fetchHandler(`/assignment/${studentId}/${assignment_id}`, setStudentAns);
-        fetchHandler(`/assignment/score/${assignment_id}/${studentId}`, (data) => {
+        fetchHandler(`/instructor/assignment/${assignment_id}/${studentId}`, (data) => {
             if (data) {
                 setScore(data.score);
                 setScored(true);
@@ -67,13 +66,13 @@ export default function MarkingPage(props: IMarkingPageProps) {
                 <Card>
                     <Card.Body className="card-table-title">
                         <Row>
-                            <Col md={4}>Assignment</Col>
+                            <Col md={4}>IAssignment</Col>
                             <Col md={5}>status</Col>
                             <Col md={3}>Action</Col>
                         </Row>
                     </Card.Body>
                 </Card>
-                {assignments.map((assignment: Assignment) => (
+                {assignments.map((assignment: IAssignment) => (
                     <StudentAssignmentRow assignment={assignment} fetchStudentAns={fetchStudentAns} />
                 ))}
             </Col>

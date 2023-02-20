@@ -29,7 +29,6 @@ export default class ScoreService extends ModelService<AssignmentsScore> {
     }
 
     async createScore(obj: AssignmentsScore) {
-        console.log(obj)
         return this.db.knex(this.tableName).insert(obj).onConflict(["assignment_id", "user_id"]).merge().returning("*");
     }
 }

@@ -1,15 +1,12 @@
-All basic function built
+Security and UI enhance
 Frontend:
-Add fetchhandler to handle request and token
-Fix student ans error
-Enhance AnsForm for reusable for both student and instructor
-Add Marking page for instructor
+Change all api call in frontend to fetchhandler for better auth control
+Add useAuth hook for fontend auth control
 UI enhance
-Add notification
+Separate instructor and student UI
 
 Backend:
-Built ScoreController and service
-Add getStudentById for UseController
-Add score in the returned assignment status in AssignmentsService
-Fix ModelService create return id bug(some table has composite pk)
-Build RequestAuth for authentication
+Add AuthController to handle login, logout and token
+Add propar auth control for all route
+Reformat api route
+Remove unnecessary controller and services

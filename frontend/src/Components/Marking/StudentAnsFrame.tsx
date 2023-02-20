@@ -1,16 +1,6 @@
-import * as React from "react";
-import { useState, useEffect } from "react";
-import { GetServerSideProps, NextPage } from "next";
-import { Card, Button, Row, Badge, Table, Alert, Container, Form, Col } from "react-bootstrap";
-import axios from "axios";
-import { Assignment } from "@/pages/assignments/[studentId]";
-import { useRouter } from "next/router";
-import { Questions, StudentAns } from "@/pages/assignments/[studentId]/[assignmentId]";
 import AnsForm from "@/Components/Assignment/AnsForm";
-import { IUser } from "@/interface";
-import StudentProfile from "@/Components/Frame/StudentProfile";
-import fetchHandler from "@/lib/fetchHandler";
-import StudentAssignmentRow from "@/Components/Marking/StudentAssignmentRow";
+import { Questions } from "@/pages/assignments/[studentId]/[assignmentId]";
+import { Alert, Button, Card, Form } from "react-bootstrap";
 
 export interface IStudentAnsProps {
     studentAns: any;

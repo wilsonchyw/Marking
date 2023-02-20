@@ -1,10 +1,4 @@
-import { useState, useEffect } from "react";
-import { GetServerSideProps, NextPage } from "next";
-import { Card, Button, Row, Badge, Table, Alert, Container, Form } from "react-bootstrap";
-import axios from "axios";
-import { useRouter } from "next/router";
-import Divider from "@/Components/Divider";
-import { Questions, StudentAns } from "@/pages/assignments/[studentId]/[assignmentId]";
+import { Button, Card } from "react-bootstrap";
 export interface IFormActionProps {
     handleSave: Function;
 }

@@ -3,11 +3,11 @@ import Injectable from "../decorators/injectable";
 import Database from "./database";
 
 interface Model<T> {
-    get(id: number): Promise<T | null>;
+    getAll(): Promise<T[]>;
+    getBy(key: string, value: string | number): Promise<T | null>;
     create(data: Partial<T>): Promise<T>;
     update(id: number, data: Partial<T>): Promise<T>;
     delete(id: number): Promise<void>;
-    getById(id: number): Promise<T | null>;
 }
 
 @Injectable
@@ -25,8 +25,10 @@ export default abstract class ModelService<T> implements Model<T> {
         return result;
     }
 
-    async get(id: number|string): Promise<T | null> {
-        const result = await this.db.knex(this.tableName).where({ id }).first();
+    async getBy(key: string, value: string | number): Promise<T | null> {
+        const result = await this.db
+            .knex(this.tableName)
+            .where({ [key]: value })
         return result ? (result as T) : null;
     }
 
@@ -35,16 +37,11 @@ export default abstract class ModelService<T> implements Model<T> {
         return result[0] as T;
     }
 
-    async update(id: number|string, data: Partial<T>): Promise<T> {
-        await this.db.knex(this.tableName).where({ id }).update(data);
-        return (await this.get(id))!;
+    async update(id: number | string, data: Partial<T>): Promise<T> {
+        return await this.db.knex(this.tableName).where({ id }).update(data).returning("*");
     }
 
-    async delete(id: number|string): Promise<void> {
+    async delete(id: number | string): Promise<void> {
         await this.db.knex(this.tableName).where({ id }).delete();
-    }
-
-    async getById(id: number|string): Promise<T | null> {
-        return this.get(id);
     }
 }

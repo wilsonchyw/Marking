@@ -1,8 +1,8 @@
-import { Assignment } from "../interface";
+import { IAssignment } from "../interface";
 import { Button, Card, Col, Row } from "react-bootstrap";
 
 export interface IStudentAssignmentRowProps {
-    assignment: Assignment;
+    assignment: IAssignment;
     fetchStudentAns: (assignment_id: any) => void;
 }
 
@@ -17,7 +17,7 @@ export default function StudentAssignmentRow({ assignment, fetchStudentAns }: IS
                     </Col>
                     <Col md={5}>
                         <Card.Subtitle className="py-1">
-                            {assignment.score ? "Scored" : completed ? "Submitted" : "Not yet submit"}
+                            {assignment.score ? "Scored" : completed ? "Submitted" : "not yet submitted"}
                         </Card.Subtitle>
                     </Col>
                     <Col md={3}>

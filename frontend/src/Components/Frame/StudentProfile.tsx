@@ -21,7 +21,7 @@ export default function StudentProfile({ user }: IProfileProps) {
                     <div>
                         {user.lastName} {user.firstName} ({user.username})
                     </div>
-                    <div>{user.role == 0 ? "student" : "Instructor"}</div>
+                    {/* <div>{user.role == 0 ? "student" : "Instructor"}</div> */}
                 </Col>
             </Row>
         </Card>

@@ -1,15 +1,11 @@
-import { useState, useEffect } from "react";
-import { GetServerSideProps, NextPage } from "next";
-import { Card, Button, Row, Badge, Table, Alert, Container, Form } from "react-bootstrap";
-import axios from "axios";
-import { useRouter } from "next/router";
 import Divider from "@/Components/Divider";
-import { Questions, StudentAns } from "@/pages/assignments/[studentId]/[assignmentId]";
-import FormAction from "./FormAction";
+import { Form } from "react-bootstrap";
+import { IQuestions, IStudentAns } from "../interface";
+
 export interface IAnsFormProps {
     handleAnsChange?: Function;
-    studentAns: StudentAns;
-    questions: Questions[];
+    studentAns: IStudentAns;
+    questions: IQuestions[];
 }
 
 export default function AnsForm({ studentAns, questions, handleAnsChange = () => {} }: IAnsFormProps) {

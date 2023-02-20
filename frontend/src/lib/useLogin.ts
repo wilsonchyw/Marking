@@ -1,20 +1,17 @@
-import { useState, useEffect } from "react";
-import { useJwt } from "react-jwt";
-import { isExpired, decodeToken } from "react-jwt";
+import { IUser } from "@/Components/interface";
+import { useEffect, useState } from "react";
+import { decodeToken, isExpired } from "react-jwt";
 
 const useLogin = () => {
     const [checking, setChecking] = useState(true);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState<IUser|null>(null);
     const token = typeof window !== "undefined"?localStorage.getItem("token"):null;
     useEffect(() => {        
         if (token) {
             const decodedToken = decodeToken(token);
-            const isMyTokenExpired = isExpired(token);
-            //const decoded = decodeToken(token);
-
+            const isMyTokenExpired = isExpired(token);    
             if (!isMyTokenExpired) {
-                console.log({ isMyTokenExpired });
                 setIsLoggedIn(true);
                 setUser(decodedToken.data);
             } else {

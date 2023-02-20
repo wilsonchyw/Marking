@@ -1,9 +1,7 @@
 import * as React from "react";
 import { Navbar, Nav, Container, Row, Col } from "react-bootstrap";
 
-export interface I_NavbarProps {
-  
-}
+export interface I_NavbarProps {}
 
 export default function _Navbar(props: I_NavbarProps) {
     return (

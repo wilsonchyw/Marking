@@ -21,9 +21,11 @@ const Notification = forwardRef((props, ref) => {
     }));
 
     return (
-        <Alert variant={type} className="alert-fixed w-25">
-            {message}
-        </Alert>
+        message && (
+            <Alert variant={type} className="alert-fixed w-25 card">
+                {message}
+            </Alert>
+        )
     );
 });
 
