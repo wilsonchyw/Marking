@@ -1,5 +1,5 @@
 # Marking
-This is a web application that allows students to submit assignments and the instructor can mark the assignments on the website. The application is built using React, NextJS, Typescript, Nodejs, Express, PostgreSQL, Knex and Docker.
+This is a web application that allows students to submit assignments and the instructor can mark the assignments on the website. The application is built using React, NextJS, Typescript, Nodejs, Express, PostgreSQL, Knex, Jest and Docker.
 
 ## Features
 - Student and Instructor Authentication
@@ -9,6 +9,15 @@ This is a web application that allows students to submit assignments and the ins
 - Instructor can mark the assignments
 - Email is automatically send to student when all assignments is marked.
 - Submitted or marked assignment is not editable.
+
+## Testing
+[Demo](http://192.9.229.157:8000/)
+| Username  | Password |
+| ------------- | ------------- |
+| admin | admin  |
+| student1  | 1234  |
+| student2  | 1234  |
+| student3  | 1234  |
 
 ## Security
 #### Frontend:
@@ -20,6 +29,14 @@ This is a web application that allows students to submit assignments and the ins
 - Passwords are hashed before being stored in the database
 - Route is protected by a role-based authentication
 - RequireAuth decorator is used to verify the user's identity and role
+
+## Scalability
+The application support multiple questions in a single assignment instead of one question pre assignment. It also support unlimit student quantity. 
+Decorators and dependency injection are widely adopted, the code is structured in a way that promotes loose coupling between different components, such as services and controllers. So that each component can be developed and tested independently, without depending on the implementation details of other components.
+
+Decorators are used to add behavior or functionality to classes or methods, such as authentication. This allows for a modular and extensible approach to adding new features to the application.
+
+All those design provides scalability for the application. As the user base grows and more complex assignments are required, the application is better equipped to handle these needs. 
 
 ## Installation
 
