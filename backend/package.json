@@ -3,9 +3,9 @@
     "version": "1.0.0",
     "main": "src/index.ts",
     "scripts": {
-        "dev": "nodemon",
+        "dev": "npm run db:migrate && npm run db:seed && nodemon",
         "test": "jest",
-        "db:migrate": "npx knex migrate:latest",
+        "db:migrate": "npx knex migrate:latest --env development",
         "db:seed": "npx knex seed:run",
         "db:down": "npx knex migrate:down"
     },

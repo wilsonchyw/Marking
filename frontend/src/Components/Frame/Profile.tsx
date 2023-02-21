@@ -9,7 +9,7 @@ export default function Profile({ user }: IProfileProps) {
     return (
         <div className="profile">
             <div className="w-50">
-                <Image src="https://www.freeiconspng.com/thumbs/profile-icon-png/profile-icon-9.png" fluid />
+                <Image src="https://www.freeiconspng.com/thumbs/profile-icon-png/profile-icon-9.png" alt="user photo" fluid />
             </div>
             <div>
                 {user.lastName} {user.firstName} ({user.username})

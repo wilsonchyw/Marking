@@ -13,6 +13,7 @@ export default function StudentProfile({ user }: IProfileProps) {
                 <Col lg={3}>
                     <Image
                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQP7twP8-u8Mjwn3HoPmQKRWpNdktcf2YuFvfi9Jh305eJa0mUVypuMjQq9BAaTGSL9C1g&usqp=CAU"
+                        alt="user photo"
                         fluid
                     />
                 </Col>

@@ -1,10 +1,9 @@
 import { Request, Response } from "express";
-import Log from "log4fns";
 import Inject from "../decorators/inject";
 import Injectable from "../decorators/injectable";
 import RequestAuth from "../decorators/requireAuth";
 import { GET } from "../decorators/restful";
-import { STUDENT, INSTRUCTOR } from "../lib/constant";
+import { INSTRUCTOR, STUDENT } from "../lib/constant";
 import AssignmentsService, { Assignment } from "../services/AssignmentsService";
 
 @Injectable

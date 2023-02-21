@@ -20,7 +20,7 @@ export default function UserForm({
             <Form.Group controlId="email">
                 <Form.Label>Email</Form.Label>
                 <Form.Control
-                    type="text"
+                    type="email"
                     placeholder="Enter email"
                     name="email"
                     value={user.email}

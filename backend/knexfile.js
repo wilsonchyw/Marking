@@ -4,8 +4,8 @@ module.exports = {
         connection: {
             host: "database",
             port: 5432,
-            user: process.env.DATABASE_USERNAME,
-            password: process.env.DATABASE_PASSWORD,
+            user: "admin",
+            password: "admin",
         },
         migrations: {
             tableName: "knex_migrations",

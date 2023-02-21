@@ -57,7 +57,7 @@ export default function AssignmentAction(props: IAssignmentActionProps) {
     const handleSave = (submit: boolean) => {
         if (msg) return;
         const _studentAns = Object.values(studentAns).map((ans) => ({ ...ans, issubmit: submit }));
-        fetchHandler(`/assignment/questions`, null, { data: _studentAns, method: "post" })
+        confirm("Confirm submit assignment?\nYou wouldn't be able to edit the answer once submitted") && fetchHandler(`/assignment/questions`, null, { data: _studentAns, method: "post" })
             .then((res) => {
                 //console.log(res);
                 if (submit) {

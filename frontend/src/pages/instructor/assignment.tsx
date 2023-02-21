@@ -19,7 +19,7 @@ export default function Assignment(props: IAssignmentProps) {
             <Card>
                 <Card.Body className="card-table-title">
                     <Row>
-                        <Col md={3}>students({students.length})</Col>
+                        <Col md={3}>Students({students.length})</Col>
                         <Col md={3}>Username</Col>
                         <Col md={3}>Content</Col>
                         <Col md={3}>Action</Col>

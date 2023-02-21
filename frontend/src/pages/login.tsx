@@ -1,8 +1,7 @@
 import axios from "axios";
-import { useState } from "react";
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useRouter } from "next/router";
-import _axios, { setToken } from "@/lib/axios";
+import { useState } from "react";
+import { Button, Container, Form } from "react-bootstrap";
 
 export interface ILoginProps {}
 

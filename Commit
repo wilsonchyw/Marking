@@ -1,8 +1,10 @@
-Add email services
+Add readme
 Frontend:
-UI enhanced
+Fix some string not formatted
+Add NextJS start
 
 Backend:
-Remove unnecessary controller and services
-Fix getCompleteStatus that student can only get it's own status
-Add EmailService, an email will sent to student's email if all assignment is scored
+Fix knex seed conflict
+Fix knex connectionerror
+
+update docker compose setting

@@ -2,7 +2,7 @@ import "dotenv/config";
 import Knex from "knex";
 import Log from "log4fns";
 import Injectable from "../decorators/injectable";
-import config from "../knexfile"
+import config from "../../knexfile"
 @Injectable
 class Database {
     private readonly _knex: any;

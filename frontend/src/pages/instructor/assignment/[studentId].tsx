@@ -29,7 +29,8 @@ export default function MarkingPage(props: IMarkingPageProps) {
             setScored(true);
             fetchHandler(`/assignment/status/${studentId}`, setAssignments);
         };
-        fetchHandler(`/instructor/assignment/${assignmentId}/${studentId}`, callback, {
+
+        confirm("Confirm score assignment?\nYou wouldn't be able to edit the score once submitted") &&fetchHandler(`/instructor/assignment/${assignmentId}/${studentId}`, callback, {
             data: { score },
             method: "post",
             errorMessage: "Failed to grade assignments",
@@ -67,13 +68,13 @@ export default function MarkingPage(props: IMarkingPageProps) {
                     <Card.Body className="card-table-title ">
                         <Row>
                             <Col md={4}>Assignment</Col>
-                            <Col md={5}>status</Col>
+                            <Col md={5}>Status</Col>
                             <Col md={3}>Action</Col>
                         </Row>
                     </Card.Body>
                 </Card>
                 {assignments.map((assignment: IAssignment) => (
-                    <StudentAssignmentRow assignment={assignment} fetchStudentAns={fetchStudentAns} />
+                    <StudentAssignmentRow key={assignment.assignment_id} assignment={assignment} fetchStudentAns={fetchStudentAns} />
                 ))}
             </Col>
             <Col md={8}>

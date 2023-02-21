@@ -3,12 +3,12 @@ services:
     database:
         image: postgres:14.1-alpine
         restart: always
+        expose:
+            - "5432"
         environment:
             - POSTGRES_USER=admin
             - POSTGRES_PASSWORD=admin
-        ports:
-            - '5431:5432'
-        volumes: 
+        volumes:
             - ./database:/var/lib/postgresql/data
         container_name: Marking_database
     backend:
@@ -19,6 +19,9 @@ services:
         volumes:
             - "./backend:/app"
             - "/app/node_modules"
+        environment:
+            - DATABASE_USERNAME=admin
+            - DATABASE_PASSWORD=admin
         entrypoint: ["npm", "run", "dev"]
         container_name: Marking_backend
         image: marking_backend:dev
@@ -26,11 +29,12 @@ services:
         build:
             context: "frontend"
         ports:
-            - 3001:3000
+            - 8000:3000
+        environment:
+            - NEXT_PUBLIC_ENDPOINT=http://localhost:3000
         volumes:
             - "./frontend:/app"
             - "/app/node_modules"
-        entrypoint: ["npm", "run", "dev"]
+        entrypoint: ["npm", "run", "dev:build"]
         container_name: Marking_frontend
         image: marking_frontend:dev
-

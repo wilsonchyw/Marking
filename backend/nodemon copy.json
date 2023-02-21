@@ -1,9 +1,0 @@
-{
-    "verbose": true,
-    "ignore": [],
-    "watch": ["src/**/*.ts", "tsconfig.json", "nodemon.json", "package.json", "__tests__/**/*"],
-    "execMap": {
-        "ts": "node --loader ts-node/esm",
-        "jest": "jest --passWithNoTests ./__tests__"
-    }
-}
